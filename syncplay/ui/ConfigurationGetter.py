@@ -514,11 +514,9 @@ class ConfigurationGetter(object):
         self._overrideConfigWithArgs(args)
         if not self._config['noGui']:
             try:
-                from syncplay.vendor.Qt import QtWidgets, IsPySide, IsPySide2, QtGui
-                from syncplay.vendor.Qt.QtCore import QCoreApplication
-                from syncplay.vendor import qt5reactor
-                if not (IsPySide2 or IsPySide):
-                    raise ImportError
+                from PySide6 import QtWidgets, QtGui
+                from PySide6.QtCore import QCoreApplication
+                from syncplay.vendor import qt6reactor
                 if QCoreApplication.instance() is None:
                     self.app = QtWidgets.QApplication(sys.argv)
                     if isWindows():
@@ -530,7 +528,7 @@ class ConfigurationGetter(object):
                         if isDarkMode:
                             self.app.setStyle(QtWidgets.QStyleFactory.create("fusion"))
                             self.app.setPalette(self.getDarkPalette(QtGui))
-                qt5reactor.install()
+                qt6reactor.install()
                 if isMacOS():
                     import appnope
                     appnope.nope()
