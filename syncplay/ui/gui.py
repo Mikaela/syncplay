@@ -1707,7 +1707,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         window.exitAction = window.fileMenu.addAction(getMessage("exit-menu-label"))
         if isMacOS():
-            window.exitAction.setMenuRole(QtWidgets.QAction.QuitRole)
+            window.exitAction.setMenuRole(QtGui.QAction.QuitRole)
         else:
             window.exitAction.setIcon(QtGui.QPixmap(resourcespath + 'cross.png'))
         window.exitAction.triggered.connect(self.exitSyncplay)
@@ -1799,7 +1799,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 getMessage("about-menu-label"))
         else:
             window.about = window.helpMenu.addAction("&About")
-            window.about.setMenuRole(QtWidgets.QAction.AboutRole)
+            window.about.setMenuRole(QtGui.QAction.AboutRole)
         window.about.triggered.connect(self.openAbout)
 
         window.menuBar.addMenu(window.helpMenu)
