@@ -71,7 +71,7 @@ jobs:
       - name: Setup Python
         run: |
           wget https://www.python.org/ftp/python/3.10.6/python-3.10.6-macos11.pkg
-          installer -verbose -pkg ./python-3.10.6-macos11.pkg -target /
+          sudo installer -verbose -pkg ./python-3.10.6-macos11.pkg -target /
 
       - name: Check Python install
         run: |
