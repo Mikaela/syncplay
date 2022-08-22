@@ -68,15 +68,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup build environment
-        run: |
-          echo "PYTHON_CONFIGURE_OPTS=--enable-universalsdk --enable-framework --with-universal-archs=universal2" >> $GITHUB_ENV
-
       - name: Setup Python
-        uses: gabrielfalcao/pyenv-action@v9
-        with:
-          default: 3.10.2
-          command: pip install -U pip setuptools wheel
+        run: |
+          brew update
+          brew install pyenv
+          export PYTHON_CONFIGURE_OPTS="--enable-universalsdk --enable-framework --with-universal-archs=universal2"
+          pyenv install 3.10.6
+          export PYENV_ROOT="$HOME/.pyenv"
+          echo "$PYENV_ROOT/shims:$PYENV_ROOT/bin" >> $GITHUB_PATH
+          pyenv global 3.10.6
 
       - name: Check Python install
         run: |
