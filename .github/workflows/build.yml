@@ -68,56 +68,42 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup build environment
+        run: |
+          echo "PYTHON_CONFIGURE_OPTS=--enable-universalsdk --enable-framework --with-universal-archs=universal2" >> $GITHUB_ENV
+
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: gabrielfalcao/pyenv-action@v9
         with:
-          python-version: '3.9'
+          default: 3.10.6
+          command: pip install -U pip setuptools wheel
 
       - name: Check Python install
         run: |
-          which python3
-          python3 --version
-          which pip3
-          pip3 --version
+          which python
+          python --version
+          which pip
+          pip --version
+          file python
 
       - name: Install Python dependencies
         run: |
-          pip3 install -U setuptools==60.* wheel pip
-          pip3 install twisted[tls] appnope requests certifi
-          pip3 install shiboken2==5.15.2 pyside2==5.15.2
-          pip3 install altgraph modulegraph macholib
-
-      - name: Install py2app
-        run: |
-          git clone https://github.com/albertosottile/py2app.git
-          cd py2app
-          git checkout stubs
-          cd py2app/apptemplate
-          python3 setup.py build
-          cd ../..
-          python3 setup.py build
-          python3 setup.py install
-          cd ..
+          pip install -r requirements.txt
+          pip install -r requirements_gui.txt
+          pip install py2app
 
       - name: Check Python dependencies
         run: |
-          python3 -c "from PySide2 import __version__; print(__version__)"
-          python3 -c "from PySide2.QtCore import __version__; print(__version__)"
-          python3 -c "from PySide2.QtCore import QLibraryInfo; print(QLibraryInfo.location(QLibraryInfo.LibrariesPath))"
-          python3 -c "import ssl; print(ssl)"
-          python3 -c "from py2app.recipes import pyside2"
-          echo $DYLD_LIBRARY_PATH
-          echo $DYLD_FRAMEWORK_PATH
-          # python3 -c 'from distutils.sysconfig import get_config_var; print(get_config_var("LDLIBRARY"))'
+          python -c "from PySide6 import __version__; print(__version__)"
+          python -c "from PySide6.QtCore import __version__; print(__version__)"
+          python -c "from PySide6.QtCore import QLibraryInfo; print(QLibraryInfo.location(QLibraryInfo.LibrariesPath))"
+          python -c "import ssl; print(ssl)"
+          python -c "from py2app.recipes import pyside6"
+          python -c 'from distutils.sysconfig import get_config_var; print(get_config_var("LDLIBRARY"))'
 
       - name: Build
         run: |
-          python3 ci/pyside2_linker.py
-          # export LIBPYTHON_FOLDER="$(python3 -c 'from distutils.sysconfig import get_config_var; print(get_config_var("LIBDIR"))')"
-          # ln -s $LIBPYTHON_FOLDER/libpython3.9m.dylib $LIBPYTHON_FOLDER/libpython3.9.dylib
-          export DYLD_FRAMEWORK_PATH="$(python3 -c 'from PySide2.QtCore import QLibraryInfo; print(QLibraryInfo.location(QLibraryInfo.LibrariesPath))')"
-          export DYLD_LIBRARY_PATH="$(python3 -c 'import os.path, PySide2; print(os.path.dirname(PySide2.__file__))'):$(python3 -c 'import os.path, shiboken2; print(os.path.dirname(shiboken2.__file__))')"
-          python3 buildPy2app.py py2app
+          python buildPy2app.py py2app
 
       - name: Prepare for deployment
         run: |
