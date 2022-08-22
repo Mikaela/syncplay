@@ -75,7 +75,7 @@ jobs:
       - name: Setup Python
         uses: gabrielfalcao/pyenv-action@v9
         with:
-          default: 3.10.6
+          default: 3.10.2
           command: pip install -U pip setuptools wheel
 
       - name: Check Python install
