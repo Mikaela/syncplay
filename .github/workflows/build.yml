@@ -75,30 +75,30 @@ jobs:
 
       - name: Check Python install
         run: |
-          which python
-          python --version
-          which pip
-          pip --version
-          file python
+          which python3
+          python3 --version
+          which pip3
+          pip3 --version
+          file3 python
 
       - name: Install Python dependencies
         run: |
-          pip install -r requirements.txt
-          pip install -r requirements_gui.txt
-          pip install py2app
+          pip3 install -r requirements.txt
+          pip3 install -r requirements_gui.txt
+          pip3 install py2app
 
       - name: Check Python dependencies
         run: |
-          python -c "from PySide6 import __version__; print(__version__)"
-          python -c "from PySide6.QtCore import __version__; print(__version__)"
-          python -c "from PySide6.QtCore import QLibraryInfo; print(QLibraryInfo.location(QLibraryInfo.LibrariesPath))"
-          python -c "import ssl; print(ssl)"
-          python -c "from py2app.recipes import pyside6"
-          python -c 'from distutils.sysconfig import get_config_var; print(get_config_var("LDLIBRARY"))'
+          python3 -c "from PySide6 import __version__; print(__version__)"
+          python3 -c "from PySide6.QtCore import __version__; print(__version__)"
+          python3 -c "from PySide6.QtCore import QLibraryInfo; print(QLibraryInfo.location(QLibraryInfo.LibrariesPath))"
+          python3 -c "import ssl; print(ssl)"
+          python3 -c "from py2app.recipes import pyside6"
+          python3 -c 'from distutils.sysconfig import get_config_var; print(get_config_var("LDLIBRARY"))'
 
       - name: Build
         run: |
-          python buildPy2app.py py2app
+          python3 buildPy2app.py py2app
 
       - name: Prepare for deployment
         run: |
