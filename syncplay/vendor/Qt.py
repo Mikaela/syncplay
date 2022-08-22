@@ -1785,12 +1785,13 @@ def _log(text):
 
 
 def _warn(text):
-    try:
-        sys.stderr.write("Qt.py [warning]: %s\n" % text)
-    except UnicodeDecodeError:
-        import locale
-        encoding = locale.getpreferredencoding()
-        sys.stderr.write("Qt.py [warning]: %s\n" % text.decode(encoding))
+    if QT_VERBOSE:
+        try:
+            sys.stderr.write("Qt.py [warning]: %s\n" % text)
+        except UnicodeDecodeError:
+            import locale
+            encoding = locale.getpreferredencoding()
+            sys.stderr.write("Qt.py [warning]: %s\n" % text.decode(encoding))
 
 
 def _convert(lines):
