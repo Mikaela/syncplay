@@ -94,6 +94,9 @@ jobs:
 
       - name: Install universal2 dependencies
         run: |
+          pip3 uninstall zope.interface -y
+          pip3 install --no-binary :all: zope.interface
+
           pip3 uninstall cffi -y
           pip3 install --no-binary :all: cffi
 
