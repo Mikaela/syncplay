@@ -65,6 +65,9 @@ jobs:
   macos:
     name: Build for macOS
     runs-on: macos-12
+    env:
+      CFLAGS: -arch x86_64 -arch arm64
+      ARCHFLAGS: -arch x86_64 -arch arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -85,9 +88,19 @@ jobs:
 
       - name: Install Python dependencies
         run: |
+          pip3 install -U pip setuptools wheel
           pip3 install -r requirements.txt
           pip3 install -r requirements_gui.txt
           pip3 install py2app
+
+      - name: Install universal2 dependencies
+        run: |
+          pip3 uninstall cffi -y
+          pip3 install --no-binary :all: cffi
+
+          pip3 uninstall cryptography -y
+          pip3 download --platform macosx_10_10_universal2 --only-binary :all: --no-deps --dest . cryptography
+          pip3 install --no-cache-dir --no-index --find-links . cryptography
 
       - name: Check Python dependencies
         run: |
