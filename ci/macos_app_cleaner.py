@@ -100,11 +100,15 @@ for p in to_be_deleted:
         else:
             os.remove(p)
 
-# copy .so from shiboken6 to PySide6 folder
+# symlink .so from shiboken6 to PySide6 folder
+
+cwd = os.getcwd()
 
 FROM = f'dist/Syncplay.app/Contents/Resources/lib/python{pyver}/shiboken6'
 TO = f'dist/Syncplay.app/Contents/Resources/lib/python{pyver}/PySide6'
 
-for f in glob(f'{FROM}/libshiboken6*.dylib'):
-    fn = os.path.basename(f)
-    shutil.copy(f, f'{TO}/{fn}')
+fn = os.path.basename(glob(f'{FROM}/libshiboken6*.dylib')[0])
+
+os.chdir(TO)
+os.symlink(f'../shiboken6/{fn}', f'./{fn}')
+os.chdir(cwd)
