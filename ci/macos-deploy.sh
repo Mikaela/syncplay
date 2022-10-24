@@ -13,6 +13,8 @@ mkdir dist/Syncplay.app/Contents/Resources/ru.lproj
 mkdir dist/Syncplay.app/Contents/Resources/Spanish.lproj
 mkdir dist/Syncplay.app/Contents/Resources/es_419.lproj
 
+python3 ci/macos_app_adhoc_sign.py
+
 pip3 install dmgbuild
 mv syncplay/resources/macOS_readme.pdf syncplay/resources/.macOS_readme.pdf
 
