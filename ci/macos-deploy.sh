@@ -3,6 +3,7 @@
 set -ex
 
 python3 ci/macos_app_cleaner.py
+python3 ci/macos_app_arch_check.py
 
 mkdir dist/Syncplay.app/Contents/Resources/English.lproj
 mkdir dist/Syncplay.app/Contents/Resources/en_AU.lproj
